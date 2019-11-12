@@ -14,4 +14,10 @@ public class HelloWorldController {
         //要回傳的網頁
         return "hello"; // resources/hello.html
     }
+	
+	@GetMapping("/menu")
+    public String menu(Model model) {
+        
+        return "menu"; 
+    }
 }
