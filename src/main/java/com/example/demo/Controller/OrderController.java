@@ -20,6 +20,6 @@ public class OrderController {
         model.addAttribute("text", "This is orderHistory");
         model.addAttribute("selfOrderHistroy", selfOrderHistroy);
         //回傳網頁
-        return "orderHistory"; // resources/hello.html
+        return "selfOrderHistroy";
     }
 }
