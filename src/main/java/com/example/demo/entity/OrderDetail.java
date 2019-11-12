@@ -9,9 +9,14 @@ import javax.persistence.Id;
 
 @Entity(name="OrderDetail")
 public class OrderDetail implements Serializable{
+
+	
+	/**
+	 * 
+	 */
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@Column (name = "OID")
 	public Integer OID;
