@@ -3,6 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <body>
 	<!-- <h2 th:text="${text}"></h2> -->
+	<h2 th:text="${session.user}"></h2>
 	<br> 
 	<br> 帳號
 	<input id="account" value="123">
@@ -86,7 +87,18 @@
 			<td><input type="button" value="取消"></td>
 		</tr>
 	</table>
-	
-	
+
+	<form id="test" method="POST" th:action="@{/logout}">
+		<input type="button" onClick="test()" value="logout">
+	</form>
+	<script>
+		function test(){
+			if(confirm("logout?")){
+				document.getElementById("test").submit();
+			}else{
+				return;
+			}
+		}
+</script>
 </body>
 </html>

@@ -31,14 +31,11 @@
 				    	</fieldset>
 				      	</form>
 				    </div>
-				    <!-- <table>
-				    <tbody>
-				    <tr th:each="cus, rowStat: ${cus}">
-				    <td th:text="${cus.account}"></td>
-				    </tr>
-				    </tbody>
-				    </table> -->
 				</div>
+			</div>
+			<!-- 登入錯誤回饋字樣 -->
+			<div th:if="${msg != null}" style="text-align:center;">
+				<span th:text="${msg}" style="color:red;font-family:微軟正黑體"></span>
 			</div>
 		</div>
 	</div>
