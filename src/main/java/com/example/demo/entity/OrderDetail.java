@@ -6,8 +6,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
-@Entity(name="OrderDetail")
+@Entity(name="Orderdetail")
+@IdClass(OrderDetailPK.class)
 public class OrderDetail implements Serializable{
 
 	
