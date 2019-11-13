@@ -15,8 +15,8 @@ public interface OrderRepository extends JpaRepository<Orders, Integer>{
 	@Query(value = "SELECT [Orders].[OID], [Orders].[Order_time], SUM([OrderDetail].[Amount]*[Meau].[MPrice]) [Sum], [Orders].[Status]" + 
 			"FROM [Orders] JOIN [OrderDetail] ON [Orders].[OID] = [OrderDetail].[OID]" + 
 			"JOIN [Meau] ON [Meau].[MID] = [OrderDetail].[MID]" + 
-			"Where [Orders].[CID] = 2" + 
+			"Where [Orders].[CID] = ?1 " + 
 			"GROUP BY [Orders].[OID], [Orders].[Order_time], [Orders].[Status]" + 
 			"", nativeQuery = true)
-	List<Object[]> getSelfOrderHistroy();
+	List<Object[]> getSelfOrderHistroy(Integer CID);
 }
