@@ -5,38 +5,30 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class HelloWorldController {
-
+@RestController
+public class MenuController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-    @GetMapping("/hello")
-    public String hello(Model model) {
-    	//我要帶的資料
-        //model.addAttribute("text", "Hello World!!");
-        //要回傳的網頁
-        return "hello"; // resources/hello.html
-    }
-	
-	@GetMapping("/menu")
-    public String menu(Model model) {
-        
-        return "menu";
-    }
+//	@PostMapping("/menuController")
+//    public String menu(Model model) {
+//        
+//        return "menu"; 
+//    }
 	
 	@ResponseBody
-	@GetMapping("/menuQuery")
+	@PostMapping("/menuController")
 	public Map<String,Object> map(){
 		
 		List<Map<String,Object>>list=jdbcTemplate.queryForList("select*from Meau");
 		
 		return list.get(0);
-		
 	}
+	
 }
