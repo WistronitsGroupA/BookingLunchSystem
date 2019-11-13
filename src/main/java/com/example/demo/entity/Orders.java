@@ -19,7 +19,7 @@ public class Orders {
 	@Column(name = "CID")
 	public Integer CID;
 	
-	@Column(name = "ordertime")
+	@Column(name = "Ordertime")
 	public Timestamp OrderTime;
 	
 	@Column(name = "Status")

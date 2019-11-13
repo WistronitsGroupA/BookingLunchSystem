@@ -30,7 +30,7 @@ public class CustomerController {
 	public String checkLogin(Model model, @RequestParam("account") String account, @RequestParam("password") String password, HttpSession session, HttpServletRequest request) {
 		Customer check = customerRepository.checkLogin(account, password);
 		if(check != null) {
-			session.setAttribute("userId", check.getCID());
+			session.setAttribute("CID", check.getCID());
 			session.setAttribute("user", check.getAccount());
 			return "hello";
 		}else {

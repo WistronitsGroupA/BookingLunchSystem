@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.entity.Orders;
@@ -34,7 +33,7 @@ public class OrderController {
 		Integer CID = (Integer) session.getAttribute("CID");
 		if (CID == null) {
 			model.addAttribute("text", "CID is null");
-			return "selfOrderHistroy";
+			return "redirect:/login";
 		}
 		// 取得資料
 		List<Object[]> selfOrderHistroy = orderRepository.getSelfOrderHistroy(CID);
