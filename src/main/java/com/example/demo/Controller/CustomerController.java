@@ -32,7 +32,8 @@ public class CustomerController {
 		if(check != null) {
 			session.setAttribute("userId", check.getCID());
 			session.setAttribute("user", check.getAccount());
-			return "hello";
+			session.setAttribute("power", check.getPower());
+			return "redirect:/todayPurchase";
 		}else {
 			request.setAttribute("msg", "帳號或密碼輸入錯誤");
 		}
