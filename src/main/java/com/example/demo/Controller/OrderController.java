@@ -1,24 +1,27 @@
 package com.example.demo.Controller;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.repository.OrderRepository;
+
 @Controller
 public class OrderController {
 
+	@Autowired
+	OrderRepository orderRepository;
+	
     @GetMapping("/selfOrderHistroy")
     public String selfOrderHistroy(Model model) {
     	//取得資料
-        ArrayList<Object> selfOrderHistroy = new ArrayList<Object>();
-        selfOrderHistroy.add(new Object() {String cname = "123"; int sum = 100;Date datetime = new Date();int status = 1;});
-        selfOrderHistroy.add(new Object() {String cname = "456"; int sum = 120;Date datetime = new Date();int status = 2;});
+    	List<Object[]> selfOrderHistroy = orderRepository.getSelfOrderHistroy();
         //夾帶資料
         model.addAttribute("text", "This is orderHistory");
-        model.addAttribute("selfOrderHistroy", selfOrderHistroy);
+        model.addAttribute("selfOrderHistroy", selfOrderHistroy); 
         //回傳網頁
         return "selfOrderHistroy";
     }

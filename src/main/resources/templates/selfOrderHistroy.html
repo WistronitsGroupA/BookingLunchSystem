@@ -12,18 +12,21 @@
 			<th>狀態</th>
 			<th>取消</th>
 		</tr>
-		<tr>
-			<td>2019/11/11</td>
-			<td>100</td>
-			<td>未訂</td>
-			<td><input type="button" value="取消"></td>
-		</tr>
-		<tr>
-			<td>2019/11/11</td>
-			<td>120</td>
-			<td>已訂</td>
-			<td><input type="button" value="取消"></td>
-		</tr>
+		<th:block th:each="row : ${selfOrderHistroy}">
+			<tr th:attr="data-OID=${row[0]}">
+				<td th:text="${row[1]}"></td>
+				<td th:text="${row[2]}"></td>
+				<th:block th:switch="${row[3]}">
+					<td th:case="'0'">未訂</td>
+					<td th:case="'1'">已訂</td>
+					<td th:case="'2'">已取消</td>
+				</th:block>
+				<td>
+					<!--只有未訂(status=0)才能enable按鈕-->
+					<input type="button" value="取消" th:disabled="${row[3]!=0}">
+				</td>
+			</tr>
+		</th:block>
 	</table>
 </body>
 </html>
