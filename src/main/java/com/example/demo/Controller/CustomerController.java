@@ -1,7 +1,5 @@
 package com.example.demo.Controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,12 +21,7 @@ public class CustomerController {
 	
 	//呈現登入頁面
 	@GetMapping("/login")
-	public String loginPage(Model model, HttpServletRequest request) {
-		if(request.getAttribute("msg") != null && !"".equals(request.getAttribute("msg"))) {
-			model.addAttribute("msg", request.getAttribute("msg").toString());
-		}
-		List<Customer> all = customerRepository.findAll();
-		model.addAttribute("cus", all);
+	public String loginPage(Model model) {
 		return "login";
 	}
 	
@@ -37,7 +30,8 @@ public class CustomerController {
 	public String checkLogin(Model model, @RequestParam("account") String account, @RequestParam("password") String password, HttpSession session, HttpServletRequest request) {
 		Customer check = customerRepository.checkLogin(account, password);
 		if(check != null) {
-			session.setAttribute("user", account);
+			session.setAttribute("userId", check.getCID());
+			session.setAttribute("user", check.getAccount());
 			return "hello";
 		}else {
 			request.setAttribute("msg", "帳號或密碼輸入錯誤");
@@ -45,6 +39,7 @@ public class CustomerController {
 		return "login";
 	}
 	
+	//登出清除帳號session
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		if(session != null) {
