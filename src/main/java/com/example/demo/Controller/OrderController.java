@@ -18,6 +18,7 @@ public class OrderController {
 	@Autowired
 	OrderRepository orderRepository;
 	
+	//顯示自己訂單紀錄的頁面
     @GetMapping("/selfOrderHistroy")
     public String selfOrderHistroy(Model model, HttpSession session) {
     	Integer CID = (Integer) session.getAttribute("CID");
@@ -32,5 +33,22 @@ public class OrderController {
         model.addAttribute("selfOrderHistroy", selfOrderHistroy); 
         //回傳網頁
         return "selfOrderHistroy";
+    }
+    
+    //顯示未下訂訂單的頁面
+    @GetMapping("/unorderList")
+    public String unorderList(Model model, HttpSession session) {
+    	Integer CID = (Integer) session.getAttribute("CID");
+    	if(CID == null) {
+    		model.addAttribute("text", "CID is null");
+    		return "unorderList";
+    	}
+    	//取得資料
+    	List<Object[]> unorderList = orderRepository.getUnorderList();
+        //夾帶資料
+        model.addAttribute("text", "This is unorderList");
+        model.addAttribute("unorderList", unorderList); 
+        //回傳網頁
+        return "unorderList";
     }
 }

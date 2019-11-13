@@ -12,18 +12,18 @@
 			<th>日期</th>
 			<th>狀態</th>
 		</tr>
-		<tr>
-			<td>張三</td>
-			<td>100</td>
-			<td>2019/11/11</td>
-			<td>未訂</td>
-		</tr>
-		<tr>
-			<td>李四</td>
-			<td>120</td>
-			<td>2019/11/11</td>
-			<td>未訂</td>
-		</tr>
+		<th:block th:each="row : ${unorderList}">
+			<tr th:attr="data-OID=${row[0]}">
+				<td th:attr="data-CID=${row[1]}" th:text="${row[2]}"></td>
+				<td th:text="${row[3]}"></td>
+				<td th:text="${row[4]}"></td>
+				<th:block th:switch="${row[5]}">
+					<td th:case="'0'">未訂</td>
+					<td th:case="'1'">已訂</td>
+					<td th:case="'2'">已取消</td>
+				</th:block>
+			</tr>
+		</th:block>
 	</table>
 </body>
 </html>
