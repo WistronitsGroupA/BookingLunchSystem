@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 @Entity(name="Orders")
-public class Order {
+public class Orders {
 
 	@Id
 	@Column (name = "OID")
@@ -15,7 +15,7 @@ public class Order {
 	@Column(name = "CID")
 	public Integer CID;
 	
-	@Column(name = "OrderTime")
+	@Column(name = "order_time")
 	public Date OrderTime;
 	
 	@Column(name = "Status")
