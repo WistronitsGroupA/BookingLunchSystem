@@ -109,7 +109,7 @@ public class OrderController {
 //	    		return "redirect/login";
 //	    	}
 		Integer changes = orderRepository.placeTodayOrders();
-		System.err.println(changes);
+		model.addAttribute("msg", "\"" + changes + "\"個資料行受到變動");
 		return "redirect:/selfOrderHistroy";
 	}
 }
