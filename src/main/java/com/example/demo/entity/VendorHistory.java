@@ -1,12 +1,13 @@
 package com.example.demo.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name="VendorHistory")
+@Entity(name="Vendorhistory")
 public class VendorHistory {
 
 	@Id
@@ -17,7 +18,7 @@ public class VendorHistory {
 	public Integer VID;
 
 	@Column(name = "datetime")
-	public Date datetime;
+	public Timestamp datetime;
 
 	// ---------------------------------------
 
@@ -41,7 +42,7 @@ public class VendorHistory {
 		return datetime;
 	}
 
-	public void setdatetime(Date datetime) {
+	public void setdatetime(Timestamp datetime) {
 		this.datetime = datetime;
 	}
 }
