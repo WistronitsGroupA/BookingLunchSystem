@@ -2,7 +2,10 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -25,4 +28,12 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 			+ "JOIN [Meau] ON [Meau].[MID] = [OrderDetail].[MID]"
 			+ "GROUP BY [Orders].[OID], [Customer].[CID], [Customer].[CName], [Orders].[Order_time], [Orders].[Status]", nativeQuery = true)
 	List<Object[]> getUnorderList();
+	
+	// 下訂今日的訂單
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE [Orders] " + 
+			"SET [Status] = 1 " + 
+			"WHERE CAST([Orders].[OrderTime] as DATE) = CONVERT (date, GETDATE())", nativeQuery = true)
+	Integer placeTodayOrders();
 }

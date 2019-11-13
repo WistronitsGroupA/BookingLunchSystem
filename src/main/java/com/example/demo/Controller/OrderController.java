@@ -85,10 +85,10 @@ public class OrderController {
 	@PostMapping("/abandonOrder")
 	public String abandonOrder(Model model, @RequestBody Integer OID, HttpSession session) {
 		Integer CID = (Integer) session.getAttribute("CID");
-    	if(CID == null) {
-    		model.addAttribute("text", "CID is null");
-    		return "redirect/login";
-    	}
+		if (CID == null) {
+			model.addAttribute("text", "CID is null");
+			return "redirect/login";
+		}
 		Orders abandonOrder = orderRepository.getOne(OID);
 		if (abandonOrder == null) {
 			model.addAttribute("msg", "取消訂單失敗");
@@ -97,6 +97,19 @@ public class OrderController {
 			orderRepository.save(abandonOrder);
 			model.addAttribute("msg", "取消訂單成功");
 		}
+		return "redirect:/selfOrderHistroy";
+	}
+
+	// 下訂今日的訂單
+	@PostMapping("/placeTodayOrders")
+	public String placeTodayOrders(Model model, HttpSession session) {
+//			Integer CID = (Integer) session.getAttribute("CID");
+//	    	if(CID == null) {
+//	    		model.addAttribute("text", "CID is null");
+//	    		return "redirect/login";
+//	    	}
+		Integer changes = orderRepository.placeTodayOrders();
+		System.err.println(changes);
 		return "redirect:/selfOrderHistroy";
 	}
 }
