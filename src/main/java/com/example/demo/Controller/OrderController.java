@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class OrderController {
 		}
 		Orders newOrder = new Orders();
 		newOrder.setCID(CID);
-		newOrder.setOrderTime(new Date());
+		newOrder.setOrderTime(new Timestamp(new Date().getTime()));
 		newOrder.setStatus(0);
 		Integer newOID = orderRepository.save(newOrder).getOID();
 		for (OrderDetail od : orderDetail) {
