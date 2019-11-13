@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.entity.Orders;
@@ -62,7 +63,7 @@ public class OrderController {
     
     //新增訂單
     @PostMapping("/addOrder")
-    public String insert(Model model, @RequestBody List<OrderDetail> orderDetail, HttpSession session) {
+    public String addOrder(Model model, @RequestBody List<OrderDetail> orderDetail, HttpSession session) {
     	Integer CID = (Integer) session.getAttribute("CID");
     	if(CID == null) {
     		model.addAttribute("text", "CID is null");
@@ -78,5 +79,24 @@ public class OrderController {
     	}
     	orderDetailRepository.saveAll(orderDetail);
 		return "redirect:/selfOrderHistroy";
+	}
+    
+  //取消訂單
+    @PostMapping("/abandonOrder")
+    public String abandonOrder(Model model,@RequestBody Integer OID, HttpSession session) {
+    	Integer CID = (Integer) session.getAttribute("CID");
+//    	if(CID == null) {
+//    		model.addAttribute("text", "CID is null");
+//    		return "redirect/login";
+//    	}
+    	Orders abandonOrder = orderRepository.getOne(OID);
+    	if(abandonOrder == null) {
+    		model.addAttribute("msg", "取消訂單失敗"); 
+    	} else {
+    		abandonOrder.setStatus(2);
+    		orderRepository.save(abandonOrder);
+    		model.addAttribute("msg", "取消訂單成功"); 
+    	}    	
+    	return "redirect:/selfOrderHistroy";
 	}
 }
