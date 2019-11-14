@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+	Transit by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>選擇今日餐點</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/skel.min.js}"></script>
+		<script th:src="@{/js/skel-layers.min.js}"></script>
+		<script th:src="@{/js/init.js}"></script>
+		<noscript>
+			<link rel="stylesheet" th:href="@{/css/skel.css}" />
+			<link rel="stylesheet" th:href="@{/css/style.css}" />
+			<link rel="stylesheet" th:href="@{/css/style-xlarge.css}" />
+		</noscript>
+	</head>
+	<body class="landing">
+
+		<!-- Header -->
+		<form id="changePage" method="GET">
+			<header id="header">
+				<nav id="nav">
+					<ul>
+						<li th:if="${session.power == 2}"><a href="javascript:chooseVendor();">新增店家</a></li>
+						<li><a href="javascript: chooseFood();">下定便當</a></li>
+						<li><a href="javascript: logout();" class="button special">登出</a></li>
+					</ul>
+				</nav>
+			</header>
+		</form>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h2 style="color:#66FF66">Have a nice day!</h2>
+			</section>
+
+		<!-- One -->
+		<form id="form1" method="POST" th:action="@{/}">
+			<section id="one" class="wrapper style1 special">
+			<span th:if="${msg != null}" th:text="${msg}"></span>
+				<div class="container">
+					<header class="major">
+						<h2 style="font-family:微軟正黑體;">選擇今日餐點</h2>
+					</header>
+					<div class="row 150%" th:if="${meau != null}">
+						<div class="4u 12u$(medium)" th:each="eachMeau : ${meau}">
+							<section class="box">
+								<img th:src="${eachMeau.pic}" height="200" width="200">
+								<h3 th:text="${eachMeau.MName} + ' $' + ${eachMeau.MPrice} "></h3>
+								<input type="hidden" id="food" th:value="${eachMeau.MID}">
+								輸入數量:<input type="text" id="amount" name="amount">
+							</section>
+						</div>
+					</div>
+					<div class="row 150%" th:if="${meau == null}">
+					</div>
+				</div>
+				<input type="hidden" id="eachMID" name="eachMID">
+				<input type="hidden" id="eachAmount" name="eachAmount">
+				<input type="button" value="送出" onClick="send()">
+			</section>
+		</form>
+
+
+<script>
+function send(){
+	//抓數量 抓DATA
+	if(confirm("確定送出?")){
+		var amount = [];
+		var MID = [];
+		$("input[name='amount']").each(function(){
+			if($(this).val().trim().length != 0){
+				amount.push($(this).val());
+				MID.push($(this).parent().find("#food").val());
+			}
+		})
+		$("#eachAmount").val(amount);
+		$("#eachMID").val(MID);
+	}else{
+		return;
+	}
+}
+
+function chooseVendor(){
+	document.getElementById("changePage").action = "/chooseToday";
+	document.getElementById("changePage").submit();
+}
+
+function chooseFood(){
+	document.getElementById("changePage").action = "/checkToday";
+	document.getElementById("changePage").submit();
+}
+
+function logout(){
+	document.getElementById("changePage").action = "/logout";
+	document.getElementById("changePage").submit();
+}
+
+</script>
+	</body>
+</html>
