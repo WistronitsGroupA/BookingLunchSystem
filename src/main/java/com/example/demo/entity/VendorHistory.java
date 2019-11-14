@@ -1,14 +1,16 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name="VendorHistory")
-public class VendorHistory {
 
+@Entity(name="VendorHistory")
+public class VendorHistory implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "VHID")
 	public Integer VHID;
@@ -18,6 +20,9 @@ public class VendorHistory {
 
 	@Column(name = "datetime")
 	public Date datetime;
+	
+	@Column(name = "CID")
+	public Integer CID;
 
 	// ---------------------------------------
 
@@ -43,5 +48,13 @@ public class VendorHistory {
 
 	public void setdatetime(Date datetime) {
 		this.datetime = datetime;
+	}
+	
+	public Integer getCID() {
+		return CID;
+	}
+
+	public void setCID(Integer CID) {
+		this.CID = CID;
 	}
 }

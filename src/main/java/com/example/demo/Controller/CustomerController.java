@@ -34,7 +34,8 @@ public class CustomerController {
 	
 	//檢核是否登入成功
 	@PostMapping("/checkLogin")
-	public String checkLogin(Model model, @RequestParam("account") String account, @RequestParam("password") String password, HttpSession session, HttpServletRequest request) {
+	public String checkLogin(Model model, @RequestParam("account") String account, 
+			@RequestParam("password") String password, HttpSession session, HttpServletRequest request) {
 		Customer check = customerRepository.checkLogin(account, password);
 		if(check != null) {
 			session.setAttribute("user", account);
