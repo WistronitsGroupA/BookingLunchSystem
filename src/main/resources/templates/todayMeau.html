@@ -48,7 +48,6 @@
 		<!-- One -->
 		<form id="form1" method="POST" th:action="@{/addOrder}">
 			<section id="one" class="wrapper style1 special">
-			<span th:if="${msg != null}" th:text="${msg}"></span>
 				<div class="container">
 					<header class="major">
 						<h2 style="font-family:微軟正黑體;">選擇今日餐點</h2>
@@ -63,12 +62,12 @@
 							</section>
 						</div>
 					</div>
-					<div class="row 150%" th:if="${meau == null}">
+					<div class="row 150%" th:if="${msg != null}" th:text="${msg}">
 					</div>
 				</div>
 				<input type="hidden" id="eachMID" name="eachMID">
 				<input type="hidden" id="eachAmount" name="eachAmount">
-				<input type="button" value="送出" onClick="send()">
+				<input th:if="${meau != null}" type="button" value="送出" onClick="send()">
 			</section>
 		</form>
 
