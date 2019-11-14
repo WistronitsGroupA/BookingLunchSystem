@@ -1,0 +1,11 @@
+#spring.thymeleaf.template-loader-path: classpath:/templates
+#spring.thymeleaf.suffix: .html
+
+#for mssql 帳密不用改
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.datasource.url=jdbc:sqlserver://10.1.21.69:1433; databaseName=Lunch
+spring.datasource.username=sa
+spring.datasource.password=wits
+
+#stop JPA format uppercase to lowercase
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
