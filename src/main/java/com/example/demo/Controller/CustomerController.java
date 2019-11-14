@@ -31,7 +31,7 @@ public class CustomerController {
 		Customer check = customerRepository.checkLogin(account, password);
 		if(check != null) {
 			session.setAttribute("CID", check.getCID());
-			session.setAttribute("user", check.getAccount());
+			session.setAttribute("userId", check.getAccount());
 			session.setAttribute("power", check.getPower());
 			return "redirect:/todayPurchase";
 		}else {

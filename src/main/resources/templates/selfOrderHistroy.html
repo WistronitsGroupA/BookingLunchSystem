@@ -6,6 +6,8 @@
 </head>
 <body>
 	<h2 th:text="${text}"></h2>
+	<a href="/todayPurchase">下訂便當</a>
+	<a href="/selfOrderHistroy">歷史紀錄</a>
 	<br>
 	自己的訂單紀錄
 	<table border="1">
@@ -14,6 +16,7 @@
 			<th>總計</th>
 			<th>狀態</th>
 			<th>取消</th>
+			<th>詳細</th>
 		</tr>
 		<th:block th:each="row : ${selfOrderHistroy}">
 			<tr th:attr="data-OID=${row[0]}">
@@ -27,6 +30,9 @@
 				<td>
 					<!--只有未訂(status=0)才能enable按鈕-->
 					<input class="abandonBtn" type="button" value="取消" th:disabled="${row[3]!=0}">
+				</td>
+				<td>
+					<input class="orderDetailBtn" type="button" value="詳細">
 				</td>
 			</tr>
 		</th:block>
@@ -46,6 +52,10 @@
 						}
 					});
 				}
+			});
+			$(".orderDetailBtn").click(function(){
+				var oid = $(this).parent().parent().data("oid");
+				location.href= "/orderDetail/?OID=" + oid;
 			});
 		});
 	</script>

@@ -102,9 +102,10 @@ public class PurchaseController {
 		if(vendor != null && todayVendor == null) {
 			todayVendor = new VendorHistory();
 			todayVendor.setVID(vendor.get().getVID());
+			todayVendor.setCID((Integer)session.getAttribute("CID"));
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat ("yyyy/MM/dd hh:mm:ss");
-			todayVendor.setdatetime(Timestamp.valueOf(ft.format(dNow)));
+			todayVendor.setdatetime(new Timestamp(new Date().getTime()));
 			
 			vendorHistoryRepository.save(todayVendor);
 			return "redirect:/checkToday";

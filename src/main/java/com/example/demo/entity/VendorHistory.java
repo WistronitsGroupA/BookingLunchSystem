@@ -5,12 +5,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name="Vendorhistory")
 public class VendorHistory {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "VHID")
 	public Integer VHID;
 
@@ -19,8 +22,19 @@ public class VendorHistory {
 
 	@Column(name = "datetime")
 	public Timestamp datetime;
+	
+	@Column(name = "CID")
+	public Integer CID;
 
 	// ---------------------------------------
+
+	public Integer getCID() {
+		return CID;
+	}
+
+	public void setCID(Integer cID) {
+		CID = cID;
+	}
 
 	public Integer getVHID() {
 		return VHID;

@@ -122,11 +122,11 @@ public class OrderController {
 	// 下訂今日的訂單
 	@PostMapping("/placeTodayOrders")
 	public String placeTodayOrders(Model model, HttpSession session) {
-//			Integer CID = (Integer) session.getAttribute("CID");
-//	    	if(CID == null) {
-//	    		model.addAttribute("text", "CID is null");
-//	    		return "redirect/login";
-//	    	}
+		Integer CID = (Integer) session.getAttribute("CID");
+    	if(CID == null) {
+    		model.addAttribute("text", "CID is null");
+    		return "redirect/login";
+    	}
 		Integer changes = orderRepository.placeTodayOrders();
 		model.addAttribute("msg", "\"" + changes + "\"個資料行受到變動");
 		return "redirect:/selfOrderHistroy";
