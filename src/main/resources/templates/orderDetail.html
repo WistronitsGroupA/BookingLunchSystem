@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<h2 th:text="${text}"></h2>
+	<br>
+	訂單明細<br>
+	訂單編號:<th:block th:text="${order[0][0]}"/><br>
+	訂購者:<th:block th:text="${order[0][1]}"/><br>
+	訂購日期:<th:block th:text="${order[0][2]}"/><br>
+	狀態:<th:block th:switch="${order[0][3]}">
+			<th:block th:case="'0'" th:text="未訂"/>
+			<th:block th:case="'1'" th:text="已訂"/>
+			<th:block th:case="'2'" th:text="已取消"/>
+		</th:block><br>
+	總計:<th:block th:text="${order[0][4]}"/><br>
+	<table border="1">
+		<tr>
+			<th>圖片</th>
+			<th>名稱</th>
+			<th>單價</th>
+			<th>數量</th>
+			<th>小計</th>
+		</tr>
+		<th:block th:each="row : ${orderDetail}">
+			<tr th:attr="data-MID=${row[0]}">
+				<td>
+					<img width="100" th:src="${row[1]}">
+				</td>
+				<td th:text="${row[2]}"></td>
+				<td th:text="${row[3]}"></td>
+				<td th:text="${row[4]}"></td>
+				<td th:text="${row[5]}"></td>
+			</tr>
+		</th:block>
+	</table>
+</body>
+</html>

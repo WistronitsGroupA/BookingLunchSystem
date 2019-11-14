@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.entity.Orders;
@@ -50,7 +51,7 @@ public class OrderController {
 		Integer CID = (Integer) session.getAttribute("CID");
 		if (CID == null) {
 			model.addAttribute("text", "CID is null");
-			return "unorderList";
+			return "redirect:/login";
 		}
 		// 取得資料
 		List<Object[]> unorderList = orderRepository.getUnorderList();
@@ -59,6 +60,24 @@ public class OrderController {
 		model.addAttribute("unorderList", unorderList);
 		// 回傳網頁
 		return "unorderList";
+	}
+	
+	// 顯示詳細的單筆訂單
+	@GetMapping("/orderDetail")
+	public String orderDetail(Model model, @RequestParam("OID") Integer OID, HttpSession session) {
+		Integer CID = (Integer) session.getAttribute("CID");
+		if (CID == null) {
+			model.addAttribute("text", "CID is null");
+			return "redirect:/login";
+		}
+		// 取得資料
+		Object order = orderRepository.getOrder(OID);
+		List<Object[]> orderDetail = orderDetailRepository.getOrderDetail(OID);
+		// 夾帶資料
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetail", orderDetail);
+		// 回傳網頁
+		return "orderDetail";
 	}
 
 	// 新增訂單

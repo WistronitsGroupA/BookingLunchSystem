@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
 <body>
 	<h2 th:text="${text}"></h2>
 	<br>
@@ -23,10 +26,28 @@
 				</th:block>
 				<td>
 					<!--只有未訂(status=0)才能enable按鈕-->
-					<input type="button" value="取消" th:disabled="${row[3]!=0}">
+					<input class="abandonBtn" type="button" value="取消" th:disabled="${row[3]!=0}">
 				</td>
 			</tr>
 		</th:block>
 	</table>
+	<script>
+		$(function(){
+			$(".abandonBtn").click(function(){
+				if(confirm("確定取消?")){
+					var abandonId = $(this).parent().parent().data("oid");
+					$.ajax({
+						url : "/abandonOrder",
+						contentType : "application/json",
+						type : "POST",
+						data : JSON.stringify(abandonId),
+						success: function(){
+							location.reload();
+						}
+					});
+				}
+			});
+		});
+	</script>
 </body>
 </html>
