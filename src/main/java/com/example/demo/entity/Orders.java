@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,8 +19,8 @@ public class Orders {
 	@Column(name = "CID")
 	public Integer CID;
 	
-	@Column(name = "ordertime")
-	public Date OrderTime;
+	@Column(name = "Ordertime")
+	public Timestamp OrderTime;
 	
 	@Column(name = "Status")
 	public Integer Status;
@@ -46,7 +47,7 @@ public class Orders {
 		return OrderTime;
 	}
 
-	public void setOrderTime(Date OrderTime) {
+	public void setOrderTime(Timestamp OrderTime) {
 		this.OrderTime = OrderTime;
 	}
 

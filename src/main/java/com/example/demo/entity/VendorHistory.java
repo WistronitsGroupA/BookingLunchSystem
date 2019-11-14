@@ -1,16 +1,20 @@
 package com.example.demo.entity;
-
 import java.sql.Timestamp;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name="VendorHistory")
-public class VendorHistory {
 
+@Entity(name="Vendorhistory")
+public class VendorHistory implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "VHID")
 	public Integer VHID;
 
@@ -20,7 +24,19 @@ public class VendorHistory {
 	@Column(name = "datetime")
 	public Timestamp datetime;
 
+	
+	@Column(name = "CID")
+	public Integer CID;
+
 	// ---------------------------------------
+
+	public Integer getCID() {
+		return CID;
+	}
+
+	public void setCID(Integer cID) {
+		CID = cID;
+	}
 
 	public Integer getVHID() {
 		return VHID;

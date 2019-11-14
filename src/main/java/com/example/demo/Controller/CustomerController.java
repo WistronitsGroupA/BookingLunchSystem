@@ -30,8 +30,8 @@ public class CustomerController {
 	public String checkLogin(Model model, @RequestParam("account") String account, @RequestParam("password") String password, HttpSession session, HttpServletRequest request) {
 		Customer check = customerRepository.checkLogin(account, password);
 		if(check != null) {
-			session.setAttribute("userId", check.getCID());
-			session.setAttribute("user", check.getAccount());
+			session.setAttribute("CID", check.getCID());
+			session.setAttribute("userId", check.getAccount());
 			session.setAttribute("power", check.getPower());
 			return "redirect:/todayPurchase";
 		}else {
@@ -41,7 +41,7 @@ public class CustomerController {
 	}
 	
 	//登出清除帳號session
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		if(session != null) {
 			session.removeAttribute("user");

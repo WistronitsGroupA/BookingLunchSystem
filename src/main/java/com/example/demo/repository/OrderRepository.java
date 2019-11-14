@@ -15,18 +15,19 @@ import com.example.demo.entity.Orders;
 public interface OrderRepository extends JpaRepository<Orders, Integer> {
 
 	// 取得個人的訂單紀錄
-	@Query(value = "SELECT [Orders].[OID], [Orders].[Order_time], SUM([OrderDetail].[Amount]*[Meau].[MPrice]) [Sum], [Orders].[Status]"
+	@Query(value = "SELECT [Orders].[OID], [Orders].[OrderTime], SUM([OrderDetail].[Amount]*[Meau].[MPrice]) [Sum], [Orders].[Status]"
 			+ "FROM [Orders] JOIN [OrderDetail] ON [Orders].[OID] = [OrderDetail].[OID]"
 			+ "JOIN [Meau] ON [Meau].[MID] = [OrderDetail].[MID] Where [Orders].[CID] = ?1 "
-			+ "GROUP BY [Orders].[OID], [Orders].[Order_time], [Orders].[Status]", nativeQuery = true)
+			+ "GROUP BY [Orders].[OID], [Orders].[OrderTime], [Orders].[Status]", nativeQuery = true)
 	List<Object[]> getSelfOrderHistroy(Integer CID);
 
 	// 取得未下訂的訂單
-	@Query(value = "SELECT [Orders].[OID], [Customer].[CID], [Customer].[CName], SUM([OrderDetail].[Amount]*[Meau].[MPrice]) [sum], [Orders].[Order_time], [Orders].[Status]"
-			+ "FROM [Orders] JOIN [OrderDetail] ON [Orders].[OID] = [OrderDetail].[OID]"
-			+ "JOIN [Customer] ON [Orders].[CID] = [Customer].[CID]"
-			+ "JOIN [Meau] ON [Meau].[MID] = [OrderDetail].[MID]"
-			+ "GROUP BY [Orders].[OID], [Customer].[CID], [Customer].[CName], [Orders].[Order_time], [Orders].[Status]", nativeQuery = true)
+	@Query(value = "SELECT [Orders].[OID], [Customer].[CID], [Customer].[CName], SUM([OrderDetail].[Amount]*[Meau].[MPrice]) [sum], [Orders].[OrderTime], [Orders].[Status]"
+			+ "FROM [Orders] LEFT JOIN [OrderDetail] ON [Orders].[OID] = [OrderDetail].[OID]"
+			+ "LEFT JOIN [Customer] ON [Orders].[CID] = [Customer].[CID]"
+			+ "LEFT JOIN [Meau] ON [Meau].[MID] = [OrderDetail].[MID]"
+			+ "WHERE [Status] = 0 "
+			+ "GROUP BY [Orders].[OID], [Customer].[CID], [Customer].[CName], [Orders].[OrderTime], [Orders].[Status]", nativeQuery = true)
 	List<Object[]> getUnorderList();
 	
 	// 下訂今日的訂單
@@ -36,4 +37,13 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 			"SET [Status] = 1 " + 
 			"WHERE CAST([Orders].[OrderTime] as DATE) = CONVERT (date, GETDATE())", nativeQuery = true)
 	Integer placeTodayOrders();
+	
+	// 取得詳細的單筆訂單
+	@Query(value = "SELECT [Orders].[OID],[Customer].[CName],[OrderTime],[Status],sum([Amount]*[MPrice]) total " + 
+			"FROM [Orders] JOIN [OrderDetail] ON [Orders].[OID] = [OrderDetail].[OID] " + 
+			"JOIN [Customer] ON [Orders].[CID] = [Customer].[CID] " + 
+			"JOIN [Meau] ON [OrderDetail].[MID] = [Meau].[MID] " + 
+			"WHERE [Orders].[OID] = ?1 " + 
+			"GROUP BY [Orders].[OID],[Customer].[CName],[OrderTime],[Status]", nativeQuery = true)
+	Object[] getOrder(Integer OID);
 }

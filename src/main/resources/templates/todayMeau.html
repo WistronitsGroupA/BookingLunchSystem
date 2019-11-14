@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--
+	Transit by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>選擇今日餐點</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/skel.min.js}"></script>
+		<script th:src="@{/js/skel-layers.min.js}"></script>
+		<script th:src="@{/js/init.js}"></script>
+		<noscript>
+			<link rel="stylesheet" th:href="@{/css/skel.css}" />
+			<link rel="stylesheet" th:href="@{/css/style.css}" />
+			<link rel="stylesheet" th:href="@{/css/style-xlarge.css}" />
+		</noscript>
+	</head>
+	<body class="landing">
+
+		<!-- Header -->
+		<form id="changePage" method="GET">
+			<header id="header">
+				<nav id="nav">
+					<ul>
+						<li th:if="${session.power == 2}"><a href="javascript:chooseVendor();">新增店家</a></li>
+						<li><a href="javascript: chooseFood();">下訂便當</a></li>
+						<li><a href="/selfOrderHistroy">歷史紀錄</a></li>
+						<li th:if="${session.power == 2}"><a href="/unorderList">大家今天的訂單</a></li>
+						<li th:if="${session.power == 2}"><a href="/VH">歷史店家</a></li>
+						<li><a href="javascript: logout();" class="button special">登出</a></li>
+					</ul>
+				</nav>
+			</header>
+		</form>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h2 style="color:#66FF66">Have a nice day!</h2>
+			</section>
+
+		<!-- One -->
+		<form id="form1" method="POST" th:action="@{/addOrder}">
+			<section id="one" class="wrapper style1 special">
+				<div class="container">
+					<header class="major">
+						<h2 style="font-family:微軟正黑體;">選擇今日餐點</h2>
+					</header>
+					<div class="row 150%" th:if="${meau != null}">
+						<div class="4u 12u$(medium)" th:each="eachMeau : ${meau}">
+							<section class="box">
+								<img th:src="${eachMeau.pic}" height="200" width="200">
+								<h3 th:text="${eachMeau.MName} + ' $' + ${eachMeau.MPrice} "></h3>
+								<input type="hidden" id="food" th:value="${eachMeau.MID}">
+								輸入數量:<input type="text" class="amount" name="amount" th:attr="data-MID=${eachMeau.MID}">
+							</section>
+						</div>
+					</div>
+					<div class="row 150%" th:if="${msg != null}" th:text="${msg}">
+					</div>
+				</div>
+				<input type="hidden" id="eachMID" name="eachMID">
+				<input type="hidden" id="eachAmount" name="eachAmount">
+				<input th:if="${meau != null}" type="button" value="送出" onClick="send()">
+			</section>
+		</form>
+
+
+<script>
+function send(){
+	//準備好要送的資料
+	var sendData = [];
+	$(".amount").each(function(){
+		//沒輸入或數量小於零時 跳過
+		if($(this).val() <= 0){
+			return;
+		}
+
+		sendData.push({
+			"MID": $(this).data("mid"),
+			"Amount": $(this).val()
+		});
+	});
+	//送出
+	if (confirm('確定送出?')) {
+		$.ajax({
+			url : "/addOrder",
+			contentType : "application/json",
+			type : "POST",
+			data : JSON.stringify(sendData),
+			success: function(response){
+				alert("下訂成功");
+			    window.location.href = "/selfOrderHistroy";
+			},
+			error: function(err){
+				console.log(err);
+				alert("下訂失敗");
+			}
+		});
+	} else {
+		// Do nothing!
+	}
+}
+
+function chooseVendor(){
+	document.getElementById("changePage").action = "/chooseToday";
+	document.getElementById("changePage").submit();
+}
+
+function chooseFood(){
+	document.getElementById("changePage").action = "/checkToday";
+	document.getElementById("changePage").submit();
+}
+
+function logout(){
+	document.getElementById("changePage").action = "/logout";
+	document.getElementById("changePage").submit();
+}
+
+</script>
+	</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class OrderController {
 		Integer CID = (Integer) session.getAttribute("CID");
 		if (CID == null) {
 			model.addAttribute("text", "CID is null");
-			return "selfOrderHistroy";
+			return "redirect:/login";
 		}
 		// 取得資料
 		List<Object[]> selfOrderHistroy = orderRepository.getSelfOrderHistroy(CID);
@@ -50,7 +51,7 @@ public class OrderController {
 		Integer CID = (Integer) session.getAttribute("CID");
 		if (CID == null) {
 			model.addAttribute("text", "CID is null");
-			return "unorderList";
+			return "redirect:/login";
 		}
 		// 取得資料
 		List<Object[]> unorderList = orderRepository.getUnorderList();
@@ -59,6 +60,24 @@ public class OrderController {
 		model.addAttribute("unorderList", unorderList);
 		// 回傳網頁
 		return "unorderList";
+	}
+	
+	// 顯示詳細的單筆訂單
+	@GetMapping("/orderDetail")
+	public String orderDetail(Model model, @RequestParam("OID") Integer OID, HttpSession session) {
+		Integer CID = (Integer) session.getAttribute("CID");
+		if (CID == null) {
+			model.addAttribute("text", "CID is null");
+			return "redirect:/login";
+		}
+		// 取得資料
+		Object order = orderRepository.getOrder(OID);
+		List<Object[]> orderDetail = orderDetailRepository.getOrderDetail(OID);
+		// 夾帶資料
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetail", orderDetail);
+		// 回傳網頁
+		return "orderDetail";
 	}
 
 	// 新增訂單
@@ -71,7 +90,7 @@ public class OrderController {
 		}
 		Orders newOrder = new Orders();
 		newOrder.setCID(CID);
-		newOrder.setOrderTime(new Date());
+		newOrder.setOrderTime(new Timestamp(new Date().getTime()));
 		newOrder.setStatus(0);
 		Integer newOID = orderRepository.save(newOrder).getOID();
 		for (OrderDetail od : orderDetail) {
@@ -103,11 +122,11 @@ public class OrderController {
 	// 下訂今日的訂單
 	@PostMapping("/placeTodayOrders")
 	public String placeTodayOrders(Model model, HttpSession session) {
-//			Integer CID = (Integer) session.getAttribute("CID");
-//	    	if(CID == null) {
-//	    		model.addAttribute("text", "CID is null");
-//	    		return "redirect/login";
-//	    	}
+		Integer CID = (Integer) session.getAttribute("CID");
+    	if(CID == null) {
+    		model.addAttribute("text", "CID is null");
+    		return "redirect/login";
+    	}
 		Integer changes = orderRepository.placeTodayOrders();
 		model.addAttribute("msg", "\"" + changes + "\"個資料行受到變動");
 		return "redirect:/selfOrderHistroy";
