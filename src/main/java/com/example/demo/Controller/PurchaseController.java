@@ -82,7 +82,7 @@ public class PurchaseController {
 		if(todayVendor == null) {
 			vendor = vendorRepository.findAll();
 		}else {
-			model.addAttribute("err", "今日店家以選擇");
+			model.addAttribute("err", "今日店家已選擇");
 		}
 	
 		model.addAttribute("vendor", vendor);
