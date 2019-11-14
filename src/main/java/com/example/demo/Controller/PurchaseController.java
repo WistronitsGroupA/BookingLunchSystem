@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Customer;
@@ -56,15 +58,14 @@ public class PurchaseController {
 		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		VendorHistory todayVendor = vendorHistoryRepository.searchHistory(df.format(dNow));
 //		//如果今日未開團&權限是揪團人
-//		if(todayVendor == null && Integer.parseInt(session.getAttribute("userId").toString()) == 2) {
-//			return "redirect: /chooseToday";
-//		}
-//		if(todayVendor != null) {
-//			List<TodayVendor> meau = purchaseRepository.todayMeau(todayVendor.getVID());
-//			model.addAttribute("meau", meau);
-//		}
-		return "redirect:/chooseToday";
-//		return "todayMeau";
+		if(todayVendor == null && Integer.parseInt(session.getAttribute("power").toString()) == 2) {
+			return "redirect:/chooseToday";
+		}
+		if(todayVendor != null) {
+			List<TodayVendor> meau = purchaseRepository.todayMeau(todayVendor.getVID());
+			model.addAttribute("meau", meau);
+		}
+		return "todayMeau";
 	}
 	//呈現選擇店家頁面
 	@GetMapping("/chooseToday")
@@ -73,8 +74,17 @@ public class PurchaseController {
 			model.addAttribute("msg", "操作時間過久，請重新登入!");
 			return "login";
 		}
-		List<Vendor> vendor = vendorRepository.findAll();
-		
+		List<Vendor> vendor = null;
+		//抓取今天日期判斷今天是否已開啟揪團
+		Date dNow = new Date();
+		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+		VendorHistory todayVendor = vendorHistoryRepository.searchHistory(df.format(dNow));
+		if(todayVendor == null) {
+			vendor = vendorRepository.findAll();
+		}else {
+			model.addAttribute("err", "今日店家以選擇");
+		}
+	
 		model.addAttribute("vendor", vendor);
 		return "chooseVendor";
 	}
@@ -107,7 +117,7 @@ public class PurchaseController {
 		}
 	}
 	//進入團購畫面判斷是否已選擇今日店家
-	@GetMapping("/checkToday")
+	@RequestMapping(value = "/checkToday", method = { RequestMethod.POST, RequestMethod.GET })
 	public String checkToday(Model model, HttpSession session) {
 		if(checkSession(session)) {
 			model.addAttribute("msg", "操作時間過久，請重新登入!");
