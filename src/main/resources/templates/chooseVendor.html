@@ -30,7 +30,9 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="javascript:chooseVendor();">新增店家</a></li>
-						<li><a href="javascript: chooseFood();">下定便當</a></li>
+						<li><a href="javascript: chooseFood();">下訂便當</a></li>
+						<li><a href="/unorderList">大家今天的訂單</a></li>
+						<li th:if="${session.power == 2}"><a href="/VH">歷史店家</a></li>
 						<li><a href="javascript: logout();" class="button special">登出</a></li>
 					</ul>
 				</nav>
