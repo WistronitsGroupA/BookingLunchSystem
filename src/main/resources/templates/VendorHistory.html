@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<thead>
+<meta charset="utf-8">
+<title>店家紀錄</title>
+</thead>
+<tbody>
+<div>
+<h1><center>店家紀錄</center></h1>
+</div>
+<table style="border:3px #cccccc solid;" cellpadding="10" border='1' align="center">
+<tr style="background-color:#E0E0E0" >
+<th><b>日期</b></th><th><b>店家</b></th>
+</tr>
+<tr th:each="VH : ${vendorhistory}">
+<td th:text="${VH[0]}"></td>
+<td th:text="${VH[1]}"></td>
+</tr>
+</table>
+</tbody>
+</html>
