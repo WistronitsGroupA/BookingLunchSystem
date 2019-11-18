@@ -7,8 +7,8 @@
 <body>
 	<h2 th:text="${text}"></h2>
 	<br>
-	<a href="/todayPurchase">返回</a>
 	主揪的訂單清單(未向店家下訂)
+	
 	<table border="1">
 		<tr>
 			<th>客戶</th>
@@ -30,6 +30,7 @@
 		</th:block>
 	</table>
 	<input onclick="sendOk()" type="button" value="我訂好了">
+	<button onclick="history.back()">返回</button>
 </body>
 <script>
 function sendOk(){

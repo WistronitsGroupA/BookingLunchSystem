@@ -13,9 +13,9 @@ public interface VendorHistoryRepository extends JpaRepository<VendorHistory, In
 	// 查詢店家紀錄是否有開啟今日訂單
 	@Query(value = "select * from [Lunch].[dbo].[VendorHistory] where convert(varchar, datetime, 111) = ?1", nativeQuery = true)
 	VendorHistory searchHistory(String datetime);
-	
-	@Query(value = "select [dbo].[VendorHistory].[datetime], [dbo].[Vendor].[VName] from [dbo].[VendorHistory] left join [dbo].[Vendor] on [dbo].[VendorHistory].[VID]=[dbo].[Vendor].[VID]", nativeQuery = true)
+
+	@Query(value = "SELECT CONVERT(varchar(10), CONVERT(datetime, VendorHistory.datetime, 111), 111), Vendor.VName "
+			+ "FROM VendorHistory LEFT JOIN Vendor "
+			+ "ON VendorHistory.VID = Vendor.VID", nativeQuery = true)
 	List<Object[]> finddatetimeAndVName();
 }
-
-

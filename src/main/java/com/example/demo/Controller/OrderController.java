@@ -39,7 +39,7 @@ public class OrderController {
 		// 取得資料
 		List<Object[]> selfOrderHistroy = orderRepository.getSelfOrderHistroy(CID);
 		// 夾帶資料
-		model.addAttribute("text", "This is orderHistory");
+		model.addAttribute("text", "訂單紀錄");
 		model.addAttribute("selfOrderHistroy", selfOrderHistroy);
 		// 回傳網頁
 		return "selfOrderHistroy";
@@ -56,7 +56,7 @@ public class OrderController {
 		// 取得資料
 		List<Object[]> unorderList = orderRepository.getUnorderList();
 		// 夾帶資料
-		model.addAttribute("text", "This is unorderList");
+		model.addAttribute("text", "所有訂餐");
 		model.addAttribute("unorderList", unorderList);
 		// 回傳網頁
 		return "unorderList";

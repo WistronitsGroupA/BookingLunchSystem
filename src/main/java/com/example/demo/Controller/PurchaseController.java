@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Customer;
 import com.example.demo.entity.TodayVendor;
 import com.example.demo.entity.Vendor;
 import com.example.demo.entity.VendorHistory;
