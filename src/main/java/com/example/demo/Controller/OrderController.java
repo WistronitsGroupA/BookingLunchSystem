@@ -56,8 +56,12 @@ public class OrderController {
 		// 取得資料
 		List<Object[]> unorderList = orderRepository.getUnorderList();
 		// 夾帶資料
+		Integer totalcost = orderRepository.getTotalcost();
+
 		model.addAttribute("text", "所有訂餐");
 		model.addAttribute("unorderList", unorderList);
+		model.addAttribute("totalcost", totalcost);
+
 		// 回傳網頁
 		return "unorderList";
 	}
@@ -76,6 +80,7 @@ public class OrderController {
 		// 夾帶資料
 		model.addAttribute("order", order);
 		model.addAttribute("orderDetail", orderDetail);
+		
 		// 回傳網頁
 		return "orderDetail";
 	}

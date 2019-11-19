@@ -5,13 +5,18 @@
 	<script th:src="@{/js/jquery.min.js}"></script>
 	</head>
 <body>
+<header style="line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(229, 229, 229);"></header>
 	<h2 th:text="${text}"></h2>
 	<br>
 	主揪的訂單清單(未向店家下訂)
 	
 	<table border="1">
 		<tr>
-			<th>客戶</th>
+			<th>員工</th>
 			<th>總計</th>
 			<th>日期</th>
 			<th>狀態</th>
@@ -27,8 +32,16 @@
 					<td th:case="'2'">已取消</td>
 				</th:block>
 			</tr>
+		
 		</th:block>
-	</table>
+		
+			<tr>
+					
+			<td th:text="總金額"></td>
+			<td th:text="${totalcost}"></td>
+			</tr>
+			
+	</table>	
 	<input onclick="sendOk()" type="button" value="我訂好了">
 	<button onclick="history.back()">返回</button>
 </body>
